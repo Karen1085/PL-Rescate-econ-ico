@@ -7,9 +7,9 @@ import plotly.graph_objects as go
 # ---------------------------------------------------------
 st.set_page_config(page_title="Impacto Tributario", layout="wide")
 
-# Colores actualizados a la nueva paleta
-COLOR_ACTUAL = '#1d2757'  # Azul Marino Oscuro (Encabezados tabla)
-COLOR_PL = '#c34129'      # Rojo Óxido/Teja (Porcentajes de la tabla)
+# Colores EXACTOS extraídos de la paleta FND-Datexco
+COLOR_ACTUAL = '#1c2045'  # Azul institucional profundo
+COLOR_PL = '#b03a2e'      # Rojo teja / Granate
 
 # ---------------------------------------------------------
 # 1. Carga de Datos
@@ -73,7 +73,7 @@ if seleccion_prod != "Todos los productos":
 else:
     df_plot = df.copy()
 
-# Cuadrícula con 3 columnas (la última vacía para dar margen derecho y comprimir los gráficos)
+# Cuadrícula con 3 columnas
 col1, col2, col3 = st.columns([2.5, 2.5, 0.5], gap="large")
 
 # --- GRÁFICO 1: PRESIÓN FISCAL ---
@@ -152,7 +152,6 @@ with col5:
         st.markdown(f"<h4 style='color: {COLOR_ACTUAL};'>4. Composición del Precio</h4>", unsafe_allow_html=True)
         prod_data = df_plot.iloc[0]
         
-        # Tabs para alternar entre Actual y PL Rescate y ahorrar espacio
         tab1, tab2 = st.tabs(["Legislación Actual", "PL Rescate Económico"])
         
         with tab1:
@@ -208,8 +207,8 @@ html_tabla = f"""
 .tg th {{border:1px solid #e0e0e0; padding:10px; font-weight:bold;}}
 .tg td {{border:1px solid #e0e0e0; padding:8px;}}
 .bg-blue {{background-color:{COLOR_ACTUAL}; color:white;}}
-.bg-grey {{background-color:#e6e6e6; color:{COLOR_ACTUAL};}}
-.bg-red {{background-color:#f9dbd3; color:{COLOR_PL};}}
+.bg-grey {{background-color:#f4f4f4; color:{COLOR_ACTUAL};}}
+.bg-red {{background-color:#fdf0ed; color:{COLOR_PL};}}
 .text-red {{color:{COLOR_PL}; font-weight:bold;}}
 </style>
 <table class="tg">
