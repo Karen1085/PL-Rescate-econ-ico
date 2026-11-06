@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.graph_objects as go
 
 # ---------------------------------------------------------
-# Configuración de la página y colores (Nueva Paleta)
+# Configuración de la página y colores
 # ---------------------------------------------------------
 st.set_page_config(page_title="Impacto Tributario", layout="wide")
 
@@ -21,7 +21,7 @@ def load_data():
 df = load_data()
 
 # ---------------------------------------------------------
-# 2. Panel Lateral (Sidebar) - Filtros y Notas
+# 2. Panel Lateral (Sidebar) - Filtros
 # ---------------------------------------------------------
 st.sidebar.markdown(f"<h3 style='color: {COLOR_ACTUAL};'>Filtros de Análisis</h3>", unsafe_allow_html=True)
 st.sidebar.markdown("<hr style='border: 1px solid #e0e0e0; margin-top: 0px;'>", unsafe_allow_html=True)
@@ -36,31 +36,6 @@ st.sidebar.checkbox("Traslado 100% al consumidor", value=True, disabled=True)
 st.sidebar.checkbox("IVA constante al 19%", value=True, disabled=True)
 
 st.sidebar.markdown("<br><hr>", unsafe_allow_html=True)
-
-# Supuestos del Modelo en Bullets 
-with st.sidebar.expander("Metodología y Supuestos", expanded=False):
-    st.markdown("""
-    **Parámetros Base:**
-    * Partimos de precios de venta de 2026 (sin impoconsumo ni IVA).
-    * Se incrementan un 5% para proyectar la base de 2027.
-    * Se asume que estos precios base permanecen constantes.
-    
-    **Impacto y Traslado:**
-    * Los incrementos tributarios se trasladan 100% al consumidor.
-    * No se consideran cambios en demanda, márgenes o características.
-    
-    **Cálculo de Licores y Vinos:**
-    * El impoconsumo integra los componentes específico y ad valorem de cada escenario.
-    
-    **Cálculo de Cervezas:**
-    * **Actual:** 48% sobre precio al detallista (sin específico).
-    * **PL Propuesto:** Específico de $330 por grado/330ml + 10% ad valorem sobre precio DANE (sin impuestos).
-    
-    **Constantes y Resultados:**
-    * El IVA se mantiene constante en 19%.
-    * **Precio Final:** Precio Base + Total Impuestos.
-    * **Presión Fiscal:** Participación del Total de Impuestos sobre el Precio Final.
-    """)
 
 # ---------------------------------------------------------
 # 3. Área Principal (Dashboard)
@@ -96,7 +71,6 @@ with col1:
         yaxis=dict(tickformat='.0%', showgrid=True, gridcolor='#E5E5E5', range=[0, max(df['PL_Presion_Fiscal'])*1.2])
     )
     st.plotly_chart(fig_presion, use_container_width=True)
-    st.caption("📌 **Nota:** Representa el porcentaje del precio de venta final que corresponde a la carga tributaria total.")
 
 # --- GRÁFICO 2: TOTAL IMPUESTOS ---
 with col2:
@@ -118,7 +92,6 @@ with col2:
         yaxis=dict(showgrid=True, gridcolor='#E5E5E5', showticklabels=False, range=[0, max(df['PL_Total_Impuestos'])*1.2])
     )
     st.plotly_chart(fig_impuestos, use_container_width=True)
-    st.caption("📌 **Nota:** Suma de los componentes específico, ad valorem e IVA aplicable a cada presentación en pesos.")
 
 # Separador
 st.markdown("<br>", unsafe_allow_html=True)
@@ -144,7 +117,6 @@ with col4:
         yaxis=dict(showgrid=True, gridcolor='#E5E5E5', showticklabels=False, range=[0, max(df['PL_Precio_Final'])*1.2])
     )
     st.plotly_chart(fig_precio, use_container_width=True)
-    st.caption("📌 **Nota:** Precio de venta estimado al consumidor asumiendo el traslado completo del 100% de los incrementos tributarios.")
 
 # --- GRÁFICO 4: CASCADAS COMPARATIVAS ---
 with col5:
@@ -175,8 +147,6 @@ with col5:
             ))
             fig_wf_pl.update_layout(plot_bgcolor='rgba(0,0,0,0)', height=250, margin=dict(t=20, b=0, l=0, r=0), yaxis=dict(showticklabels=False))
             st.plotly_chart(fig_wf_pl, use_container_width=True)
-            
-        st.caption("📌 **Nota:** Desglose escalonado de cómo interactúan los componentes tributarios sobre el precio base para conformar el valor final.")
 
     else:
         st.markdown(f"<h4 style='color: {COLOR_ACTUAL};'>4. Resumen de Incrementos</h4>", unsafe_allow_html=True)
@@ -194,7 +164,6 @@ with col5:
             </div>
         </div>
         """.replace(',', '.'), unsafe_allow_html=True)
-        st.caption("📌 **Nota:** Aumento promedio absoluto del mercado en impuestos y precio final (calculado sobre el mix de productos evaluado).")
 
 # ---------------------------------------------------------
 # 4. Tabla de Tarifas Estática
