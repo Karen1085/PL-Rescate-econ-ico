@@ -92,7 +92,7 @@ html_tabla = f"""
       <th class="bg-actual">Ad val.</th>
       <th class="bg-grey">Esp. 2027</th>
       <th class="bg-grey">Ad val.</th>
-      <th class="bg-pl">Esp. Reforma</th>
+      <th class="bg-pl">Esp. 2027</th>
       <th class="bg-pl">Ad val.</th>
     </tr>
   </thead>
