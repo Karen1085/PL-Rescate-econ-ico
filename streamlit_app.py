@@ -85,7 +85,7 @@ html_tabla = f"""
       <th rowspan="2" style="background-color:white; color:{COLOR_BASE_AZUL}; border: none;">Producto</th>
       <th colspan="2" class="bg-actual">Legislación actual</th>
       <th colspan="2" class="bg-grey">Legislación 2027</th>
-      <th colspan="2" class="bg-pl">PL rescate</th>
+      <th colspan="2" class="bg-pl">PL Rescate Económico</th>
     </tr>
     <tr>
       <th class="bg-actual">Esp. 2026</th>
