@@ -7,8 +7,8 @@ import plotly.graph_objects as go
 # ---------------------------------------------------------
 st.set_page_config(page_title="Impacto Tributario", layout="wide")
 
-COLOR_ACTUAL = '#1c2045'  # Azul Marino Oscuro (Barra inferior)
-COLOR_PL = '#deb173'      # Arena / Mostaza (Barra superior)
+COLOR_ACTUAL = '#1c2045'  # Azul Marino Oscuro (Legislación Actual)
+COLOR_PL = '#deb173'      # Arena / Mostaza (PL Rescate)
 COLOR_PL_TEXT = '#a67d3e' # Tono mostaza oscurecido para legibilidad en texto
 
 # ---------------------------------------------------------
@@ -21,7 +21,7 @@ def load_data():
 df = load_data()
 
 # ---------------------------------------------------------
-# 2. Panel Lateral (Sidebar) - Filtros
+# 2. Panel Lateral (Sidebar) - Filtros y Notas
 # ---------------------------------------------------------
 st.sidebar.markdown(f"<h3 style='color: {COLOR_ACTUAL};'>Filtros de Análisis</h3>", unsafe_allow_html=True)
 st.sidebar.markdown("<hr style='border: 1px solid #e0e0e0; margin-top: 0px;'>", unsafe_allow_html=True)
@@ -33,9 +33,30 @@ st.sidebar.markdown("<br>", unsafe_allow_html=True)
 st.sidebar.markdown("### Configuración del Modelo")
 st.sidebar.checkbox("Mantener precios base constantes (2027)", value=True, disabled=True)
 st.sidebar.checkbox("Traslado 100% al consumidor", value=True, disabled=True)
-st.sidebar.checkbox("IVA constante al 19%", value=True, disabled=True)
 
 st.sidebar.markdown("<br><hr>", unsafe_allow_html=True)
+
+# Supuestos del Modelo en Bullets 
+with st.sidebar.expander("Metodología y Supuestos", expanded=False):
+    st.markdown("""
+    **Parámetros Base:**
+    * Partimos de precios de venta de 2026 (sin impoconsumo ni IVA).
+    * Se incrementan un 5% para proyectar la base de 2027.
+    * Se asume que estos precios base permanecen constantes.
+    
+    **Impacto y Traslado:**
+    * Los incrementos tributarios se trasladan 100% al consumidor.
+    * No se consideran cambios en demanda, márgenes o características.
+    
+    **Cálculo de Impuestos (Actual vs PL):**
+    * El impoconsumo integra los componentes específico y ad valorem.
+    * **Cervezas:** Pasan de un 48% (sin específico) a $330 por grado/330ml + 10% ad valorem.
+    
+    **IVA y Resultados:**
+    * **IVA Licores/Vinos:** Pasa del 5% (Actual) al 19% (PL Rescate). Cervezas se mantienen al 19%.
+    * **Precio Final:** Precio Base + Total Impuestos.
+    * **Presión Fiscal:** Participación del Total de Impuestos sobre el Precio Final.
+    """)
 
 # ---------------------------------------------------------
 # 3. Área Principal (Dashboard)
@@ -48,7 +69,7 @@ if seleccion_prod != "Todos los productos":
 else:
     df_plot = df.copy()
 
-# Cuadrícula con 3 columnas (la última vacía para dar margen derecho)
+# Cuadrícula con 3 columnas (la última vacía para dar margen derecho y no estirar los gráficos)
 col1, col2, col3 = st.columns([2.5, 2.5, 0.5], gap="large")
 
 # --- GRÁFICO 1: PRESIÓN FISCAL ---
