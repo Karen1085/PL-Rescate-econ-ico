@@ -89,11 +89,11 @@ html_tabla = f"""
     </tr>
     <tr>
       <th class="bg-actual">Esp. 2026</th>
-      <th class="bg-actual">Ad val.</th>
+      <th class="bg-actual">Ad val. 2026</th>
       <th class="bg-grey">Esp. 2027</th>
-      <th class="bg-grey">Ad val.</th>
+      <th class="bg-grey">Ad val 2027.</th>
       <th class="bg-pl">Esp. 2027</th>
-      <th class="bg-pl">Ad val.</th>
+      <th class="bg-pl">Ad val. 2027</th>
     </tr>
   </thead>
   <tbody>
