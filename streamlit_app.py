@@ -62,7 +62,7 @@ st.sidebar.checkbox("Mantener precios base constantes (2027)", value=True, disab
 st.sidebar.checkbox("Traslado 100% al consumidor", value=True, disabled=True)
 
 st.sidebar.markdown("<br>", unsafe_allow_html=True)
-st.sidebar.caption("**Nota general:** Los resultados corresponden a un ejercicio de simulación estática para productos seleccionados y no constituyen estimaciones representativas del mercado nacional de bebidas alcohólicas. La presión fiscal y los incrementos estimados pueden diferir significativamente entre marcas y presentaciones, especialmente por las diferencias de precios y contenido alcohólico. El ejercicio supone que los cambios tributarios se trasladan completamente al precio final al consumidor.")
+st.sidebar.caption("**Nota general:** Los resultados corresponden a un ejercicio ilustrativo para productos seleccionados y no constituyen estimaciones representativas del mercado nacional de bebidas alcohólicas.")
 
 st.sidebar.markdown("<hr>", unsafe_allow_html=True)
 
