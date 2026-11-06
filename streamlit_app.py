@@ -3,12 +3,13 @@ import pandas as pd
 import plotly.graph_objects as go
 
 # ---------------------------------------------------------
-# Configuración de la página y colores (Opción 2)
+# Configuración de la página y colores (Nueva Paleta)
 # ---------------------------------------------------------
 st.set_page_config(page_title="Impacto Tributario", layout="wide")
 
-COLOR_ACTUAL = '#143642'  # Verde Bosque Oscuro / Gris Verdoso
-COLOR_PL = '#e67e22'      # Naranja Quemado / Ámbar
+COLOR_ACTUAL = '#1c2045'  # Azul Marino Oscuro (Barra inferior)
+COLOR_PL = '#deb173'      # Arena / Mostaza (Barra superior)
+COLOR_PL_TEXT = '#a67d3e' # Tono mostaza oscurecido para legibilidad en texto
 
 # ---------------------------------------------------------
 # 1. Carga de Datos
@@ -185,11 +186,11 @@ with col5:
         <div style="border: 1px solid #e5e5e5; border-radius: 8px; padding: 20px; background-color: white; height: 300px; display: flex; flex-direction: column; justify-content: center; gap: 20px;">
             <div>
                 <div style="color: {COLOR_ACTUAL}; font-size: 16px;">Incremento Promedio Impuestos:</div>
-                <div style="color: {COLOR_PL}; font-size: 28px; font-weight: bold;">+${promedio_impuestos:,.0f}</div>
+                <div style="color: {COLOR_PL_TEXT}; font-size: 28px; font-weight: bold;">+${promedio_impuestos:,.0f}</div>
             </div>
             <div>
                 <div style="color: {COLOR_ACTUAL}; font-size: 16px;">Incremento Promedio Precio Final:</div>
-                <div style="color: {COLOR_PL}; font-size: 28px; font-weight: bold;">+${promedio_precio:,.0f}</div>
+                <div style="color: {COLOR_PL_TEXT}; font-size: 28px; font-weight: bold;">+${promedio_precio:,.0f}</div>
             </div>
         </div>
         """.replace(',', '.'), unsafe_allow_html=True)
@@ -207,8 +208,8 @@ html_tabla = f"""
 .tg td {{border:1px solid #e0e0e0; padding:8px;}}
 .bg-actual {{background-color:{COLOR_ACTUAL}; color:white;}}
 .bg-grey {{background-color:#e6e6e6; color:{COLOR_ACTUAL};}}
-.bg-pl {{background-color:#fcf3eb; color:{COLOR_PL};}}
-.text-pl {{color:{COLOR_PL}; font-weight:bold;}}
+.bg-pl {{background-color:#fcf9f2; color:{COLOR_ACTUAL};}}
+.text-pl {{color:{COLOR_PL_TEXT}; font-weight:bold;}}
 </style>
 <table class="tg">
   <thead>
