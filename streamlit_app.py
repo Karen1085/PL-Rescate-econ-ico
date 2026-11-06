@@ -106,7 +106,7 @@ html_tabla = f"""
 # ---------------------------------------------------------
 # 4. Área Principal (Dashboard)
 # ---------------------------------------------------------
-st.markdown(f"<h2 style='color: {COLOR_BASE_AZUL};'>Impacto del Proyecto de Ley de Rescate Económico en Bebidas</h2>", unsafe_allow_html=True)
+st.markdown(f"<h2 style='color: {COLOR_BASE_AZUL};'>Análisi del Proyecto de Ley de Rescate Económico vs Legislación Actual </h2>", unsafe_allow_html=True)
 st.markdown("<hr style='border: 1px solid #e0e0e0; margin-top: -10px; margin-bottom: 20px;'>", unsafe_allow_html=True)
 
 if seleccion_prod != "Todos los productos":
