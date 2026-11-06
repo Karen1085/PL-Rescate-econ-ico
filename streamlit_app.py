@@ -36,7 +36,73 @@ st.sidebar.checkbox("Traslado 100% al consumidor", value=True, disabled=True)
 st.sidebar.markdown("<br><hr>", unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# 3. Área Principal (Dashboard)
+# 3. HTML de la Tabla de Tarifas (Definición)
+# ---------------------------------------------------------
+# Ajustada con fuente más pequeña (12px) y menos padding para encajar en la columna
+html_tabla = f"""
+<style>
+.tg {{border-collapse:collapse; border-spacing:0; width:100%; text-align:center; font-family:sans-serif; font-size: 12px; margin-bottom: 10px;}}
+.tg th {{border:1px solid #e0e0e0; padding:6px; font-weight:bold;}}
+.tg td {{border:1px solid #e0e0e0; padding:5px;}}
+.bg-actual {{background-color:{COLOR_BASE_AZUL}; color:white;}}
+.bg-grey {{background-color:#e6e6e6; color:{COLOR_BASE_AZUL};}}
+.bg-pl {{background-color:#fcf9f2; color:{COLOR_BASE_AZUL};}}
+.text-pl {{color:{COLOR_TEXTO_ARENA}; font-weight:bold;}}
+</style>
+<table class="tg">
+  <thead>
+    <tr>
+      <th rowspan="2" style="background-color:white; color:{COLOR_BASE_AZUL}; border: none;">Producto</th>
+      <th colspan="2" class="bg-actual">Legislación actual</th>
+      <th colspan="2" class="bg-grey">Legislación 2027</th>
+      <th colspan="2" class="bg-pl">PL rescate</th>
+    </tr>
+    <tr>
+      <th class="bg-actual">Esp. 2026</th>
+      <th class="bg-actual">Ad val.</th>
+      <th class="bg-grey">Esp. 2027</th>
+      <th class="bg-grey">Ad val.</th>
+      <th class="bg-pl">Esp. Reforma</th>
+      <th class="bg-pl">Ad val.</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="color: {COLOR_BASE_AZUL}; font-weight: bold;">Licores</td>
+      <td class="bg-actual">$360/gr</td><td class="bg-actual">25%</td>
+      <td class="bg-grey">$378/gr</td><td class="bg-grey">25%</td>
+      <td class="text-pl">$750/gr</td><td class="text-pl">35%</td>
+    </tr>
+    <tr>
+      <td style="color: {COLOR_BASE_AZUL}; font-weight: bold;">Vinos</td>
+      <td class="bg-actual">$243/gr</td><td class="bg-actual">20%</td>
+      <td class="bg-grey">$255/gr</td><td class="bg-grey">20%</td>
+      <td class="text-pl">$750/gr</td><td class="text-pl">35%</td>
+    </tr>
+    <tr>
+      <td style="color: {COLOR_BASE_AZUL}; font-weight: bold;">Cervezas</td>
+      <td class="bg-actual">N/A</td><td class="bg-actual">48%*</td>
+      <td class="bg-grey">N/A</td><td class="bg-grey">48%*</td>
+      <td class="text-pl">$330/gr</td><td class="text-pl">10%</td>
+    </tr>
+    <tr>
+      <td style="color: {COLOR_BASE_AZUL}; font-weight: bold;">Refajos</td>
+      <td class="bg-actual">N/A</td><td class="bg-actual">20%*</td>
+      <td class="bg-grey">N/A</td><td class="bg-grey">20%*</td>
+      <td class="text-pl">$330/gr</td><td class="text-pl">10%</td>
+    </tr>
+    <tr>
+      <td style="color: {COLOR_BASE_AZUL}; font-weight: bold;">Cigarrillos</td>
+      <td class="bg-actual">$4.446/20u</td><td class="bg-actual">10%</td>
+      <td class="bg-grey">$4.846/20u</td><td class="bg-grey">10%</td>
+      <td class="text-pl">$7.823/20u</td><td class="text-pl">10%</td>
+    </tr>
+  </tbody>
+</table>
+"""
+
+# ---------------------------------------------------------
+# 4. Área Principal (Dashboard)
 # ---------------------------------------------------------
 st.markdown(f"<h2 style='color: {COLOR_BASE_AZUL};'>Impacto del Proyecto de Ley de Rescate Económico en Bebidas</h2>", unsafe_allow_html=True)
 st.markdown("<hr style='border: 1px solid #e0e0e0; margin-top: -10px; margin-bottom: 20px;'>", unsafe_allow_html=True)
@@ -115,7 +181,7 @@ with col4:
     )
     st.plotly_chart(fig_precio, use_container_width=True)
 
-# --- GRÁFICO 4: CASCADAS COMPARATIVAS ---
+# --- GRÁFICO 4: CASCADAS COMPARATIVAS O TABLA DE TARIFAS ---
 with col5:
     if seleccion_prod != "Todos los productos":
         st.markdown(f"<h4 style='color: {COLOR_BASE_AZUL};'>4. Composición del Precio</h4>", unsafe_allow_html=True)
@@ -146,87 +212,6 @@ with col5:
             st.plotly_chart(fig_wf_pl, use_container_width=True)
 
     else:
-        st.markdown(f"<h4 style='color: {COLOR_BASE_AZUL};'>4. Resumen de Incrementos</h4>", unsafe_allow_html=True)
-        promedio_impuestos = (df['PL_Total_Impuestos'] - df['Actual_Total_Impuestos']).mean()
-        promedio_precio = (df['PL_Precio_Final'] - df['Actual_Precio_Final']).mean()
-        st.markdown(f"""
-        <div style="border: 1px solid #e5e5e5; border-radius: 8px; padding: 20px; background-color: white; height: 300px; display: flex; flex-direction: column; justify-content: center; gap: 20px;">
-            <div>
-                <div style="color: {COLOR_BASE_AZUL}; font-size: 16px;">Incremento Promedio Impuestos:</div>
-                <div style="color: {COLOR_TEXTO_ARENA}; font-size: 28px; font-weight: bold;">+${promedio_impuestos:,.0f}</div>
-            </div>
-            <div>
-                <div style="color: {COLOR_BASE_AZUL}; font-size: 16px;">Incremento Promedio Precio Final:</div>
-                <div style="color: {COLOR_TEXTO_ARENA}; font-size: 28px; font-weight: bold;">+${promedio_precio:,.0f}</div>
-            </div>
-        </div>
-        """.replace(',', '.'), unsafe_allow_html=True)
-
-# ---------------------------------------------------------
-# 4. Tabla de Tarifas Estática
-# ---------------------------------------------------------
-st.markdown("<br><br><hr style='border: 1px solid #e0e0e0;'>", unsafe_allow_html=True)
-
-html_tabla = f"""
-<style>
-.tg {{border-collapse:collapse; border-spacing:0; width:100%; text-align:center; font-family:sans-serif; font-size: 14px; margin-bottom: 10px;}}
-.tg th {{border:1px solid #e0e0e0; padding:10px; font-weight:bold;}}
-.tg td {{border:1px solid #e0e0e0; padding:8px;}}
-.bg-actual {{background-color:{COLOR_BASE_AZUL}; color:white;}}
-.bg-grey {{background-color:#e6e6e6; color:{COLOR_BASE_AZUL};}}
-.bg-pl {{background-color:#fcf9f2; color:{COLOR_BASE_AZUL};}}
-.text-pl {{color:{COLOR_TEXTO_ARENA}; font-weight:bold;}}
-</style>
-<table class="tg">
-  <thead>
-    <tr>
-      <th rowspan="2" style="background-color:white; color:{COLOR_BASE_AZUL}; border: none;">Producto</th>
-      <th colspan="2" class="bg-actual">Legislación actual</th>
-      <th colspan="2" class="bg-grey">legislacion actual en 2027</th>
-      <th colspan="2" class="bg-pl">PL rescate</th>
-    </tr>
-    <tr>
-      <th class="bg-actual">Específico vigente 2026</th>
-      <th class="bg-actual">Ad valorem vigente 2026</th>
-      <th class="bg-grey">Específico vigente 2027</th>
-      <th class="bg-grey">Ad valorem vigente 2027</th>
-      <th class="bg-pl">Específico reforma 2027</th>
-      <th class="bg-pl">Ad valorem reforma 2027</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="color: {COLOR_BASE_AZUL}; font-weight: bold;">Licores y aperitivos</td>
-      <td class="bg-actual">$360 por grado</td><td class="bg-actual">25%</td>
-      <td class="bg-grey">$378 por grado</td><td class="bg-grey">25%</td>
-      <td class="text-pl">$750 por grado</td><td class="text-pl">35%</td>
-    </tr>
-    <tr>
-      <td style="color: {COLOR_BASE_AZUL}; font-weight: bold;">Vinos y aperitivos vínicos</td>
-      <td class="bg-actual">$243 por grado</td><td class="bg-actual">20%</td>
-      <td class="bg-grey">$255 por grado</td><td class="bg-grey">20%</td>
-      <td class="text-pl">$750 por grado</td><td class="text-pl">35%</td>
-    </tr>
-    <tr>
-      <td style="color: {COLOR_BASE_AZUL}; font-weight: bold;">Cervezas y sifones</td>
-      <td class="bg-actual">No existe</td><td class="bg-actual">48%*</td>
-      <td class="bg-grey">No existe</td><td class="bg-grey">48%*</td>
-      <td class="text-pl">$330 por grado</td><td class="text-pl">10%</td>
-    </tr>
-    <tr>
-      <td style="color: {COLOR_BASE_AZUL}; font-weight: bold;">Refajos y mezclas</td>
-      <td class="bg-actual">No existe</td><td class="bg-actual">20%*</td>
-      <td class="bg-grey">No existe</td><td class="bg-grey">20%*</td>
-      <td class="text-pl">$330 por grado</td><td class="text-pl">10%</td>
-    </tr>
-    <tr>
-      <td style="color: {COLOR_BASE_AZUL}; font-weight: bold;">Cigarrillos</td>
-      <td class="bg-actual">$4.446 por 20 unidades</td><td class="bg-actual">10%</td>
-      <td class="bg-grey">$4.846 por 20 unidades</td><td class="bg-grey">10%</td>
-      <td class="text-pl">$7.823 por 20 unidades</td><td class="text-pl">10%</td>
-    </tr>
-  </tbody>
-</table>
-"""
-st.markdown(html_tabla, unsafe_allow_html=True)
-st.caption("En licores y vinos, el componente específico se calcula por grado alcoholimétrico en 750 ml o su equivalente.<br>*En cervezas y refajos, la nueva tarifa específica se calcula por grado alcoholimétrico en 330 ml o su equivalente.<br>En cigarrillos, el específico propuesto aumenta a $11.200 por cajetilla desde 2028.", unsafe_allow_html=True)
+        st.markdown(f"<h4 style='color: {COLOR_BASE_AZUL};'>4. Tabla Resumen de Tarifas</h4>", unsafe_allow_html=True)
+        st.markdown(html_tabla, unsafe_allow_html=True)
+        st.markdown("<p style='font-size: 11px; color: gray;'>*En licores y vinos, componente específico por grado en 750ml. *En cervezas/refajos por grado en 330ml. Cigarrillos: propuesto sube a $11.200 por cajetilla desde 2028.</p>", unsafe_allow_html=True)
