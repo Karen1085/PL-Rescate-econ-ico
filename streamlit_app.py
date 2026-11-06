@@ -3,13 +3,12 @@ import pandas as pd
 import plotly.graph_objects as go
 
 # ---------------------------------------------------------
-# Configuración de la página y colores
+# Configuración de la página y colores (Opción 2)
 # ---------------------------------------------------------
 st.set_page_config(page_title="Impacto Tributario", layout="wide")
 
-# Colores EXACTOS extraídos de la paleta FND-Datexco
-COLOR_ACTUAL = '#1c2045'  # Azul institucional profundo
-COLOR_PL = '#b03a2e'      # Rojo teja / Granate
+COLOR_ACTUAL = '#143642'  # Verde Bosque Oscuro / Gris Verdoso
+COLOR_PL = '#e67e22'      # Naranja Quemado / Ámbar
 
 # ---------------------------------------------------------
 # 1. Carga de Datos
@@ -73,7 +72,7 @@ if seleccion_prod != "Todos los productos":
 else:
     df_plot = df.copy()
 
-# Cuadrícula con 3 columnas
+# Cuadrícula con 3 columnas (la última vacía para dar margen derecho)
 col1, col2, col3 = st.columns([2.5, 2.5, 0.5], gap="large")
 
 # --- GRÁFICO 1: PRESIÓN FISCAL ---
@@ -206,58 +205,58 @@ html_tabla = f"""
 .tg {{border-collapse:collapse; border-spacing:0; width:100%; text-align:center; font-family:sans-serif; font-size: 14px; margin-bottom: 10px;}}
 .tg th {{border:1px solid #e0e0e0; padding:10px; font-weight:bold;}}
 .tg td {{border:1px solid #e0e0e0; padding:8px;}}
-.bg-blue {{background-color:{COLOR_ACTUAL}; color:white;}}
-.bg-grey {{background-color:#f4f4f4; color:{COLOR_ACTUAL};}}
-.bg-red {{background-color:#fdf0ed; color:{COLOR_PL};}}
-.text-red {{color:{COLOR_PL}; font-weight:bold;}}
+.bg-actual {{background-color:{COLOR_ACTUAL}; color:white;}}
+.bg-grey {{background-color:#e6e6e6; color:{COLOR_ACTUAL};}}
+.bg-pl {{background-color:#fcf3eb; color:{COLOR_PL};}}
+.text-pl {{color:{COLOR_PL}; font-weight:bold;}}
 </style>
 <table class="tg">
   <thead>
     <tr>
       <th rowspan="2" style="background-color:white; color:{COLOR_ACTUAL}; border: none;">Producto</th>
-      <th colspan="2" class="bg-blue">Legislación actual</th>
+      <th colspan="2" class="bg-actual">Legislación actual</th>
       <th colspan="2" class="bg-grey">legislacion actual en 2027</th>
-      <th colspan="2" class="bg-red">PL rescate</th>
+      <th colspan="2" class="bg-pl">PL rescate</th>
     </tr>
     <tr>
-      <th class="bg-blue">Específico vigente 2026</th>
-      <th class="bg-blue">Ad valorem vigente 2026</th>
+      <th class="bg-actual">Específico vigente 2026</th>
+      <th class="bg-actual">Ad valorem vigente 2026</th>
       <th class="bg-grey">Específico vigente 2027</th>
       <th class="bg-grey">Ad valorem vigente 2027</th>
-      <th class="bg-red">Específico reforma 2027</th>
-      <th class="bg-red">Ad valorem reforma 2027</th>
+      <th class="bg-pl">Específico reforma 2027</th>
+      <th class="bg-pl">Ad valorem reforma 2027</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td style="color: {COLOR_ACTUAL}; font-weight: bold;">Licores y aperitivos</td>
-      <td class="bg-blue">$360 por grado</td><td class="bg-blue">25%</td>
+      <td class="bg-actual">$360 por grado</td><td class="bg-actual">25%</td>
       <td class="bg-grey">$378 por grado</td><td class="bg-grey">25%</td>
-      <td class="text-red">$750 por grado</td><td class="text-red">35%</td>
+      <td class="text-pl">$750 por grado</td><td class="text-pl">35%</td>
     </tr>
     <tr>
       <td style="color: {COLOR_ACTUAL}; font-weight: bold;">Vinos y aperitivos vínicos</td>
-      <td class="bg-blue">$243 por grado</td><td class="bg-blue">20%</td>
+      <td class="bg-actual">$243 por grado</td><td class="bg-actual">20%</td>
       <td class="bg-grey">$255 por grado</td><td class="bg-grey">20%</td>
-      <td class="text-red">$750 por grado</td><td class="text-red">35%</td>
+      <td class="text-pl">$750 por grado</td><td class="text-pl">35%</td>
     </tr>
     <tr>
       <td style="color: {COLOR_ACTUAL}; font-weight: bold;">Cervezas y sifones</td>
-      <td class="bg-blue">No existe</td><td class="bg-blue">48%*</td>
+      <td class="bg-actual">No existe</td><td class="bg-actual">48%*</td>
       <td class="bg-grey">No existe</td><td class="bg-grey">48%*</td>
-      <td class="text-red">$330 por grado</td><td class="text-red">10%</td>
+      <td class="text-pl">$330 por grado</td><td class="text-pl">10%</td>
     </tr>
     <tr>
       <td style="color: {COLOR_ACTUAL}; font-weight: bold;">Refajos y mezclas</td>
-      <td class="bg-blue">No existe</td><td class="bg-blue">20%*</td>
+      <td class="bg-actual">No existe</td><td class="bg-actual">20%*</td>
       <td class="bg-grey">No existe</td><td class="bg-grey">20%*</td>
-      <td class="text-red">$330 por grado</td><td class="text-red">10%</td>
+      <td class="text-pl">$330 por grado</td><td class="text-pl">10%</td>
     </tr>
     <tr>
       <td style="color: {COLOR_ACTUAL}; font-weight: bold;">Cigarrillos</td>
-      <td class="bg-blue">$4.446 por 20 unidades</td><td class="bg-blue">10%</td>
+      <td class="bg-actual">$4.446 por 20 unidades</td><td class="bg-actual">10%</td>
       <td class="bg-grey">$4.846 por 20 unidades</td><td class="bg-grey">10%</td>
-      <td class="text-red">$7.823 por 20 unidades</td><td class="text-red">10%</td>
+      <td class="text-pl">$7.823 por 20 unidades</td><td class="text-pl">10%</td>
     </tr>
   </tbody>
 </table>
