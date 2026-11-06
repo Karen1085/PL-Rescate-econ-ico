@@ -35,7 +35,31 @@ st.sidebar.checkbox("Traslado 100% al consumidor", value=True, disabled=True)
 st.sidebar.checkbox("IVA constante al 19%", value=True, disabled=True)
 
 st.sidebar.markdown("<br><hr>", unsafe_allow_html=True)
-st.sidebar.caption("Para estimar el impacto de las modificaciones tributarias propuestas en el Proyecto de Ley de Rescate Económico, se parte de los precios de venta de 2026, excluyendo el impuesto al consumo y el IVA, los cuales se incrementan un 5 % para obtener los precios base de 2027. Se supone que estos precios permanecen constantes en ambos escenarios y que los incrementos tributarios se trasladan completamente al consumidor, sin considerar cambios en las cantidades demandadas, los márgenes de comercialización o las características de los productos. Para los licores, vinos y aperitivos, el impuesto al consumo se calcula considerando los componentes específico y ad valorem correspondientes a cada escenario. En el caso de las cervezas, se tiene en cuenta que la legislación vigente establece un impuesto al consumo del 48 % sobre el precio de venta al detallista, sin componente específico, mientras que el proyecto de ley propone sustituirlo por un componente específico de $330 por grado alcoholimétrico por cada 330 ml y un componente ad valorem del 10 % sobre el precio de venta al público sin impuestos, certificado por el DANE. Para las cervezas se mantiene una tarifa de IVA del 19 % en ambos escenarios. Finalmente, el precio de venta proyectado se obtiene sumando los impuestos al precio base de 2027, mientras que la presión fiscal se calcula como la participación del total de impuestos en el precio final al consumidor. Los resultados corresponden a un ejercicio de simulación que supone un traslado completo de los cambios tributarios al consumidor.")
+
+# Supuestos del Modelo en Bullets (Simplificado)
+with st.sidebar.expander("Metodología y Supuestos", expanded=False):
+    st.markdown("""
+    **Parámetros Base:**
+    * Partimos de precios de venta de 2026 (sin impoconsumo ni IVA).
+    * Se incrementan un 5% para proyectar la base de 2027.
+    * Se asume que estos precios base permanecen constantes.
+    
+    **Impacto y Traslado:**
+    * Los incrementos tributarios se trasladan 100% al consumidor.
+    * No se consideran cambios en demanda, márgenes o características.
+    
+    **Cálculo de Licores y Vinos:**
+    * El impoconsumo integra los componentes específico y ad valorem de cada escenario.
+    
+    **Cálculo de Cervezas:**
+    * **Actual:** 48% sobre precio al detallista (sin específico).
+    * **PL Propuesto:** Específico de $330 por grado/330ml + 10% ad valorem sobre precio DANE (sin impuestos).
+    
+    **Constantes y Resultados:**
+    * El IVA se mantiene constante en 19%.
+    * **Precio Final:** Precio Base + Total Impuestos.
+    * **Presión Fiscal:** Participación del Total de Impuestos sobre el Precio Final.
+    """)
 
 # ---------------------------------------------------------
 # 3. Área Principal (Dashboard)
@@ -48,11 +72,11 @@ if seleccion_prod != "Todos los productos":
 else:
     df_plot = df.copy()
 
-# Cuadrícula con mayor separación (gap="large")
-row1_col1, row1_col2 = st.columns(2, gap="large")
+# Cuadrícula con 3 columnas (la última vacía para dar margen derecho y comprimir los gráficos)
+col1, col2, col3 = st.columns([2.5, 2.5, 0.5], gap="large")
 
 # --- GRÁFICO 1: PRESIÓN FISCAL ---
-with row1_col1:
+with col1:
     st.markdown(f"<h4 style='color: {COLOR_ACTUAL};'>1. Presión Fiscal (%)</h4>", unsafe_allow_html=True)
     fig_presion = go.Figure()
     fig_presion.add_trace(go.Bar(
@@ -66,14 +90,14 @@ with row1_col1:
         text=[f"{x:.0%}" for x in df_plot['PL_Presion_Fiscal']], textposition='outside', textfont=dict(weight='bold')
     ))
     fig_presion.update_layout(
-        barmode='group', plot_bgcolor='rgba(0,0,0,0)', height=280, margin=dict(t=20, b=0, l=0, r=0),
+        barmode='group', plot_bgcolor='rgba(0,0,0,0)', height=300, margin=dict(t=20, b=0, l=0, r=0),
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
         yaxis=dict(tickformat='.0%', showgrid=True, gridcolor='#E5E5E5', range=[0, max(df['PL_Presion_Fiscal'])*1.2])
     )
     st.plotly_chart(fig_presion, use_container_width=True)
 
 # --- GRÁFICO 2: TOTAL IMPUESTOS ---
-with row1_col2:
+with col2:
     st.markdown(f"<h4 style='color: {COLOR_ACTUAL};'>2. Total de Impuestos por Botella</h4>", unsafe_allow_html=True)
     fig_impuestos = go.Figure()
     fig_impuestos.add_trace(go.Bar(
@@ -87,18 +111,18 @@ with row1_col2:
         text=[f"${x:,.0f}".replace(',', '.') for x in df_plot['PL_Total_Impuestos']], textposition='outside', textfont=dict(weight='bold')
     ))
     fig_impuestos.update_layout(
-        barmode='group', plot_bgcolor='rgba(0,0,0,0)', height=280, margin=dict(t=20, b=0, l=0, r=0),
+        barmode='group', plot_bgcolor='rgba(0,0,0,0)', height=300, margin=dict(t=20, b=0, l=0, r=0),
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
         yaxis=dict(showgrid=True, gridcolor='#E5E5E5', showticklabels=False, range=[0, max(df['PL_Total_Impuestos'])*1.2])
     )
     st.plotly_chart(fig_impuestos, use_container_width=True)
 
-# Separador vertical
-st.markdown("<br><br>", unsafe_allow_html=True)
-row2_col1, row2_col2 = st.columns(2, gap="large")
+# Separador
+st.markdown("<br>", unsafe_allow_html=True)
+col4, col5, col6 = st.columns([2.5, 2.5, 0.5], gap="large")
 
 # --- GRÁFICO 3: PRECIO DE VENTA FINAL ---
-with row2_col1:
+with col4:
     st.markdown(f"<h4 style='color: {COLOR_ACTUAL};'>3. Precio de Venta Final</h4>", unsafe_allow_html=True)
     fig_precio = go.Figure()
     fig_precio.add_trace(go.Bar(
@@ -112,32 +136,49 @@ with row2_col1:
         text=[f"${x:,.0f}".replace(',', '.') for x in df_plot['PL_Precio_Final']], textposition='outside', textfont=dict(weight='bold')
     ))
     fig_precio.update_layout(
-        barmode='group', plot_bgcolor='rgba(0,0,0,0)', height=280, margin=dict(t=20, b=0, l=0, r=0),
+        barmode='group', plot_bgcolor='rgba(0,0,0,0)', height=300, margin=dict(t=20, b=0, l=0, r=0),
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
         yaxis=dict(showgrid=True, gridcolor='#E5E5E5', showticklabels=False, range=[0, max(df['PL_Precio_Final'])*1.2])
     )
     st.plotly_chart(fig_precio, use_container_width=True)
 
-# --- GRÁFICO 4: CASCADA ---
-with row2_col2:
+# --- GRÁFICO 4: CASCADAS COMPARATIVAS ---
+with col5:
     if seleccion_prod != "Todos los productos":
-        st.markdown(f"<h4 style='color: {COLOR_ACTUAL};'>4. Composición del Precio (Actual)</h4>", unsafe_allow_html=True)
+        st.markdown(f"<h4 style='color: {COLOR_ACTUAL};'>4. Composición del Precio</h4>", unsafe_allow_html=True)
         prod_data = df_plot.iloc[0]
-        fig_wf = go.Figure(go.Waterfall(
-            name="Actual", orientation="v", measure=["relative"]*4 + ["total"],
-            x=["Base", "Ad Val.", "Espec.", "IVA", "Final"],
-            y=[prod_data['Precio_Base_2027'], prod_data['Actual_AdValorem_Valor'], prod_data['Actual_Especifico_Valor'], prod_data['Actual_IVA_Valor'], prod_data['Actual_Precio_Final']],
-            textposition="outside", text=[f"${x:,.0f}".replace(',','.') for x in [prod_data['Precio_Base_2027'], prod_data['Actual_AdValorem_Valor'], prod_data['Actual_Especifico_Valor'], prod_data['Actual_IVA_Valor'], prod_data['Actual_Precio_Final']]],
-            connector={"line": {"color": "#e0e0e0"}}, decreasing={"marker": {"color": COLOR_ACTUAL}}, increasing={"marker": {"color": COLOR_ACTUAL}}, totals={"marker": {"color": COLOR_PL}}
-        ))
-        fig_wf.update_layout(plot_bgcolor='rgba(0,0,0,0)', height=280, margin=dict(t=20, b=0, l=0, r=0))
-        st.plotly_chart(fig_wf, use_container_width=True)
+        
+        # Tabs para alternar entre Actual y PL Rescate y ahorrar espacio
+        tab1, tab2 = st.tabs(["Legislación Actual", "PL Rescate Económico"])
+        
+        with tab1:
+            fig_wf_act = go.Figure(go.Waterfall(
+                name="Actual", orientation="v", measure=["relative"]*4 + ["total"],
+                x=["Base", "Ad Val.", "Espec.", "IVA", "Final"],
+                y=[prod_data['Precio_Base_2027'], prod_data['Actual_AdValorem_Valor'], prod_data['Actual_Especifico_Valor'], prod_data['Actual_IVA_Valor'], prod_data['Actual_Precio_Final']],
+                textposition="outside", text=[f"${x:,.0f}".replace(',','.') for x in [prod_data['Precio_Base_2027'], prod_data['Actual_AdValorem_Valor'], prod_data['Actual_Especifico_Valor'], prod_data['Actual_IVA_Valor'], prod_data['Actual_Precio_Final']]],
+                connector={"line": {"color": "#e0e0e0"}}, decreasing={"marker": {"color": COLOR_ACTUAL}}, increasing={"marker": {"color": COLOR_ACTUAL}}, totals={"marker": {"color": COLOR_ACTUAL}}
+            ))
+            fig_wf_act.update_layout(plot_bgcolor='rgba(0,0,0,0)', height=250, margin=dict(t=20, b=0, l=0, r=0), yaxis=dict(showticklabels=False))
+            st.plotly_chart(fig_wf_act, use_container_width=True)
+            
+        with tab2:
+            fig_wf_pl = go.Figure(go.Waterfall(
+                name="PL Rescate", orientation="v", measure=["relative"]*4 + ["total"],
+                x=["Base", "Ad Val.", "Espec.", "IVA", "Final"],
+                y=[prod_data['Precio_Base_2027'], prod_data['PL_AdValorem_Valor'], prod_data['PL_Especifico_Valor'], prod_data['PL_IVA_Valor'], prod_data['PL_Precio_Final']],
+                textposition="outside", text=[f"${x:,.0f}".replace(',','.') for x in [prod_data['Precio_Base_2027'], prod_data['PL_AdValorem_Valor'], prod_data['PL_Especifico_Valor'], prod_data['PL_IVA_Valor'], prod_data['PL_Precio_Final']]],
+                connector={"line": {"color": "#e0e0e0"}}, decreasing={"marker": {"color": COLOR_ACTUAL}}, increasing={"marker": {"color": COLOR_ACTUAL}}, totals={"marker": {"color": COLOR_PL}}
+            ))
+            fig_wf_pl.update_layout(plot_bgcolor='rgba(0,0,0,0)', height=250, margin=dict(t=20, b=0, l=0, r=0), yaxis=dict(showticklabels=False))
+            st.plotly_chart(fig_wf_pl, use_container_width=True)
+
     else:
         st.markdown(f"<h4 style='color: {COLOR_ACTUAL};'>4. Resumen de Incrementos</h4>", unsafe_allow_html=True)
         promedio_impuestos = (df['PL_Total_Impuestos'] - df['Actual_Total_Impuestos']).mean()
         promedio_precio = (df['PL_Precio_Final'] - df['Actual_Precio_Final']).mean()
         st.markdown(f"""
-        <div style="border: 1px solid #e5e5e5; border-radius: 8px; padding: 20px; background-color: white; height: 280px; display: flex; flex-direction: column; justify-content: center; gap: 20px;">
+        <div style="border: 1px solid #e5e5e5; border-radius: 8px; padding: 20px; background-color: white; height: 300px; display: flex; flex-direction: column; justify-content: center; gap: 20px;">
             <div>
                 <div style="color: {COLOR_ACTUAL}; font-size: 16px;">Incremento Promedio Impuestos:</div>
                 <div style="color: {COLOR_PL}; font-size: 28px; font-weight: bold;">+${promedio_impuestos:,.0f}</div>
@@ -150,7 +191,7 @@ with row2_col2:
         """.replace(',', '.'), unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# 4. Tabla de Tarifas Estática 
+# 4. Tabla de Tarifas Estática
 # ---------------------------------------------------------
 st.markdown("<br><br><hr style='border: 1px solid #e0e0e0;'>", unsafe_allow_html=True)
 
