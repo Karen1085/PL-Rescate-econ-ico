@@ -136,7 +136,7 @@ with col1:
         yaxis=dict(tickformat='.0%', showgrid=True, gridcolor='#E5E5E5', range=[0, max(df['PL_Presion_Fiscal'])*1.2])
     )
     st.plotly_chart(fig_presion, use_container_width=True)
-    st.caption("**Nota:** Representa el porcentaje del precio final al consumidor que corresponde al impuesto al consumo y al IVA. Se seleccionó una única marca por categoría, por lo que los resultados son ilustrativos y no representan la presión fiscal de todos los productos, dada la diversidad de marcas, precios, presentaciones y grados alcoholimétricos existentes en el mercado.")
+    st.caption("**Nota:** Representa la participación de los impuestos en el precio final al consumidor. Se seleccionó una sola marca por categoría, por lo que los resultados son ilustrativos y no representan la presión fiscal de todos los productos, dada la diversidad de marcas, precios, presentaciones y grados alcoholimétricos.")
 
 # --- GRÁFICO 2: TOTAL IMPUESTOS ---
 with col2:
@@ -158,7 +158,7 @@ with col2:
         yaxis=dict(showgrid=True, gridcolor='#E5E5E5', showticklabels=False, range=[0, max(df['PL_Total_Impuestos'])*1.2])
     )
     st.plotly_chart(fig_impuestos, use_container_width=True)
-    st.caption("**Nota:** Corresponde a la suma de los componentes específico, ad valorem e IVA estimados para cada producto bajo la legislación vigente y el proyecto de ley. Los valores corresponden a una marca y presentación seleccionada por categoría, por lo que pueden variar entre productos según su precio, volumen y contenido alcohólico.")
+    st.caption("**Nota:** Incluye el impuesto al consumo y el IVA. En licores, vinos y aperitivos, el proyecto contempla un aumento del IVA del 5 % al 19 %. En cervezas, la legislación vigente aplica un impuesto del 48 % sobre el precio de venta al detallista, mientras que el proyecto establece un componente específico y un ad valorem del 10 % sobre el precio de venta al público sin impuestos, certificado por el DANE.")
 
 # Separador
 st.markdown("<br>", unsafe_allow_html=True)
@@ -184,7 +184,7 @@ with col4:
         yaxis=dict(showgrid=True, gridcolor='#E5E5E5', showticklabels=False, range=[0, max(df['PL_Precio_Final'])*1.2])
     )
     st.plotly_chart(fig_precio, use_container_width=True)
-    st.caption("**Nota:** Se proyectan los precios antes de impuestos de 2026 con un incremento del 5 % para 2027. Se supone que los precios antes de impuestos permanecen constantes en ambos escenarios y que los incrementos tributarios se trasladan en su totalidad al consumidor, sin considerar cambios en los márgenes de comercialización ni en la demanda. Los resultados son estimaciones ilustrativas para los productos seleccionados.")
+    st.caption("**Nota:** Se proyecta un incremento del 5 % en los precios antes de impuestos para 2027. Se supone que los precios base permanecen constantes entre escenarios y que el 100 % del incremento tributario se traslada al consumidor, sin considerar cambios en los márgenes de comercialización ni en la demanda.")
 
 # --- GRÁFICO 4: CASCADAS COMPARATIVAS O TABLA DE TARIFAS ---
 with col5:
@@ -219,4 +219,4 @@ with col5:
     else:
         st.markdown(f"<h4 style='color: {COLOR_BASE_AZUL};'>4. Tabla Resumen de Tarifas</h4>", unsafe_allow_html=True)
         st.markdown(html_tabla, unsafe_allow_html=True)
-        st.caption("**Nota:** Presenta las tarifas específicas y ad valorem vigentes en 2026, su proyección para 2027 y las propuestas en el Proyecto de Ley de Rescate Económico. Las tarifas específicas de 2027 corresponden a estimaciones y no a valores oficialmente certificados. Para los cigarrillos, el proyecto contempla un incremento adicional de la tarifa específica a $11.200 por cajetilla de 20 unidades en 2028.")
+        st.caption("**Nota:** Se comparan las tarifas vigentes en 2026, su proyección para 2027 y las propuestas en el PL de Rescate Económico. Para 2027 se supone un IPC del 5 % y, en cigarrillos, una actualización del IPC más cuatro puntos porcentuales. Las tarifas específicas se expresan por grado alcoholimétrico y 750 ml para licores y vinos, por grado y 330 ml para cervezas y refajos, y por cajetilla de 20 unidades para cigarrillos. El proyecto propone aumentar la tarifa de estos últimos a $11.200 en 2028.")
