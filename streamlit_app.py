@@ -5,7 +5,7 @@ import plotly.graph_objects as go
 # ---------------------------------------------------------
 # Configuración de la página
 # ---------------------------------------------------------
-st.set_page_config(page_title="Impacto Tributario", layout="wide")
+st.set_page_config(page_title="Analisis Tributario", layout="wide")
 
 COLOR_BASE_AZUL = '#1c2045'  # Azul Marino Oscuro (Legislación Actual)
 COLOR_BASE_ARENA = '#deb173' # Arena / Mostaza (PL Rescate)
