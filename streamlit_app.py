@@ -5,14 +5,42 @@ import plotly.graph_objects as go
 # ---------------------------------------------------------
 # Configuración de la página
 # ---------------------------------------------------------
-st.set_page_config(page_title="Analisis Tributario", layout="wide")
+st.set_page_config(page_title="Impacto Tributario", layout="wide")
 
 COLOR_BASE_AZUL = '#1c2045'  # Azul Marino Oscuro (Legislación Actual)
 COLOR_BASE_ARENA = '#deb173' # Arena / Mostaza (PL Rescate)
 COLOR_TEXTO_ARENA = '#a67d3e' # Tono mostaza para legibilidad en texto
 
 # ---------------------------------------------------------
-# 1. Carga de Datos (SIN CACHÉ PARA VER DATOS NUEVOS SIEMPRE)
+# FORZAR MODO BLANCO Y ELIMINAR MENÚ DE COLOR (SOLO CÓDIGO)
+# ---------------------------------------------------------
+st.markdown(f"""
+<style>
+    /* 1. Ocultar menú de 3 puntos, selector de temas y encabezado de Streamlit */
+    #MainMenu {{visibility: hidden !important; display: none !important;}}
+    header {{visibility: hidden !important; display: none !important;}}
+    footer {{visibility: hidden !important; display: none !important;}}
+    [data-testid="stToolbar"] {{visibility: hidden !important; display: none !important;}}
+    [data-testid="stHeader"] {{background-color: transparent !important; display: none !important;}}
+    
+    /* 2. Forzar fondo blanco y texto oscuro en toda la pantalla */
+    html, body, .stApp, [data-testid="stAppViewContainer"] {{
+        background-color: #FFFFFF !important;
+        color: {COLOR_BASE_AZUL} !important;
+    }}
+    
+    /* 3. Forzar sidebar en fondo claro y texto oscuro */
+    section[data-testid="stSidebar"] {{
+        background-color: #F8F9FA !important;
+    }}
+    section[data-testid="stSidebar"] * {{
+        color: {COLOR_BASE_AZUL} !important;
+    }}
+</style>
+""", unsafe_allow_html=True)
+
+# ---------------------------------------------------------
+# 1. Carga de Datos (Sin caché para lectura en tiempo real)
 # ---------------------------------------------------------
 def load_data():
     return pd.read_excel("Base_Datos_Tributaria_Licores.xlsx")
@@ -34,7 +62,7 @@ st.sidebar.checkbox("Mantener precios base constantes (2027)", value=True, disab
 st.sidebar.checkbox("Traslado 100% al consumidor", value=True, disabled=True)
 
 st.sidebar.markdown("<br>", unsafe_allow_html=True)
-st.sidebar.caption("**Nota general:** Los resultados corresponden a un ejercicio de simulación estática para productos seleccionados y no constituyen estimaciones representativas del mercado nacional de bebidas alcohólicas. ")
+st.sidebar.caption("**Nota general:** Los resultados corresponden a un ejercicio de simulación estática para productos seleccionados y no constituyen estimaciones representativas del mercado nacional de bebidas alcohólicas. La presión fiscal y los incrementos estimados pueden diferir significativamente entre marcas y presentaciones, especialmente por las diferencias de precios y contenido alcohólico. El ejercicio supone que los cambios tributarios se trasladan completamente al precio final al consumidor.")
 
 st.sidebar.markdown("<hr>", unsafe_allow_html=True)
 
@@ -106,7 +134,7 @@ html_tabla = f"""
 # ---------------------------------------------------------
 # 4. Área Principal (Dashboard)
 # ---------------------------------------------------------
-st.markdown(f"<h2 style='color: {COLOR_BASE_AZUL};'>Análisi del Proyecto de Ley de Rescate Económico vs Legislación Actual </h2>", unsafe_allow_html=True)
+st.markdown(f"<h2 style='color: {COLOR_BASE_AZUL};'>Impacto del Proyecto de Ley de Rescate Económico en Bebidas</h2>", unsafe_allow_html=True)
 st.markdown("<hr style='border: 1px solid #e0e0e0; margin-top: -10px; margin-bottom: 20px;'>", unsafe_allow_html=True)
 
 if seleccion_prod != "Todos los productos":
@@ -131,12 +159,14 @@ with col1:
         text=[f"{x:.0%}" for x in df_plot['PL_Presion_Fiscal']], textposition='outside', textfont=dict(weight='bold')
     ))
     fig_presion.update_layout(
-        barmode='group', plot_bgcolor='rgba(0,0,0,0)', height=300, margin=dict(t=20, b=0, l=0, r=0),
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
-        yaxis=dict(tickformat='.0%', showgrid=True, gridcolor='#E5E5E5', range=[0, max(df['PL_Presion_Fiscal'])*1.2])
+        barmode='group', plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
+        height=300, margin=dict(t=20, b=0, l=0, r=0),
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1, font=dict(color=COLOR_BASE_AZUL)),
+        yaxis=dict(tickformat='.0%', showgrid=True, gridcolor='#E5E5E5', tickfont=dict(color=COLOR_BASE_AZUL), range=[0, max(df['PL_Presion_Fiscal'])*1.2]),
+        xaxis=dict(tickfont=dict(color=COLOR_BASE_AZUL))
     )
     st.plotly_chart(fig_presion, use_container_width=True)
-    st.caption("**Nota:** La presión fiscal representa la participación de los impuestos en el precio final al consumidor. Se seleccionó una sola marca por categoría, por lo que los resultados son ilustrativos y no representan la presión fiscal de todos los productos, dada la diversidad de marcas, precios, presentaciones y grados alcoholimétricos.")
+    st.caption("**Nota:** Representa la participación de los impuestos en el precio final al consumidor. Se seleccionó una sola marca por categoría, por lo que los resultados son ilustrativos y no representan la presión fiscal de todos los productos, dada la diversidad de marcas, precios, presentaciones y grados alcoholimétricos.")
 
 # --- GRÁFICO 2: TOTAL IMPUESTOS ---
 with col2:
@@ -153,9 +183,11 @@ with col2:
         text=[f"${x:,.0f}".replace(',', '.') for x in df_plot['PL_Total_Impuestos']], textposition='outside', textfont=dict(weight='bold')
     ))
     fig_impuestos.update_layout(
-        barmode='group', plot_bgcolor='rgba(0,0,0,0)', height=300, margin=dict(t=20, b=0, l=0, r=0),
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
-        yaxis=dict(showgrid=True, gridcolor='#E5E5E5', showticklabels=False, range=[0, max(df['PL_Total_Impuestos'])*1.2])
+        barmode='group', plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
+        height=300, margin=dict(t=20, b=0, l=0, r=0),
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1, font=dict(color=COLOR_BASE_AZUL)),
+        yaxis=dict(showgrid=True, gridcolor='#E5E5E5', showticklabels=False, range=[0, max(df['PL_Total_Impuestos'])*1.2]),
+        xaxis=dict(tickfont=dict(color=COLOR_BASE_AZUL))
     )
     st.plotly_chart(fig_impuestos, use_container_width=True)
     st.caption("**Nota:** Incluye el impuesto al consumo y el IVA. En licores, vinos y aperitivos, el proyecto contempla un aumento del IVA del 5 % al 19 %. En cervezas, la legislación vigente aplica un impuesto del 48 % sobre el precio de venta al detallista, mientras que el proyecto establece un componente específico y un ad valorem del 10 % sobre el precio de venta al público sin impuestos, certificado por el DANE.")
@@ -179,9 +211,11 @@ with col4:
         text=[f"${x:,.0f}".replace(',', '.') for x in df_plot['PL_Precio_Final']], textposition='outside', textfont=dict(weight='bold')
     ))
     fig_precio.update_layout(
-        barmode='group', plot_bgcolor='rgba(0,0,0,0)', height=300, margin=dict(t=20, b=0, l=0, r=0),
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
-        yaxis=dict(showgrid=True, gridcolor='#E5E5E5', showticklabels=False, range=[0, max(df['PL_Precio_Final'])*1.2])
+        barmode='group', plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
+        height=300, margin=dict(t=20, b=0, l=0, r=0),
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1, font=dict(color=COLOR_BASE_AZUL)),
+        yaxis=dict(showgrid=True, gridcolor='#E5E5E5', showticklabels=False, range=[0, max(df['PL_Precio_Final'])*1.2]),
+        xaxis=dict(tickfont=dict(color=COLOR_BASE_AZUL))
     )
     st.plotly_chart(fig_precio, use_container_width=True)
     st.caption("**Nota:** Se proyecta un incremento del 5 % en los precios antes de impuestos para 2027. Se supone que los precios base permanecen constantes entre escenarios y que el 100 % del incremento tributario se traslada al consumidor, sin considerar cambios en los márgenes de comercialización ni en la demanda.")
@@ -202,7 +236,11 @@ with col5:
                 textposition="outside", text=[f"${x:,.0f}".replace(',','.') for x in [prod_data['Precio_Base_2027'], prod_data['Actual_AdValorem_Valor'], prod_data['Actual_Especifico_Valor'], prod_data['Actual_IVA_Valor'], prod_data['Actual_Precio_Final']]],
                 connector={"line": {"color": "#e0e0e0"}}, decreasing={"marker": {"color": COLOR_BASE_AZUL}}, increasing={"marker": {"color": COLOR_BASE_AZUL}}, totals={"marker": {"color": COLOR_BASE_AZUL}}
             ))
-            fig_wf_act.update_layout(plot_bgcolor='rgba(0,0,0,0)', height=250, margin=dict(t=20, b=0, l=0, r=0), yaxis=dict(showticklabels=False))
+            fig_wf_act.update_layout(
+                plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
+                height=250, margin=dict(t=20, b=0, l=0, r=0),
+                yaxis=dict(showticklabels=False), xaxis=dict(tickfont=dict(color=COLOR_BASE_AZUL))
+            )
             st.plotly_chart(fig_wf_act, use_container_width=True)
             
         with tab2:
@@ -213,7 +251,11 @@ with col5:
                 textposition="outside", text=[f"${x:,.0f}".replace(',','.') for x in [prod_data['Precio_Base_2027'], prod_data['PL_AdValorem_Valor'], prod_data['PL_Especifico_Valor'], prod_data['PL_IVA_Valor'], prod_data['PL_Precio_Final']]],
                 connector={"line": {"color": "#e0e0e0"}}, decreasing={"marker": {"color": COLOR_BASE_AZUL}}, increasing={"marker": {"color": COLOR_BASE_AZUL}}, totals={"marker": {"color": COLOR_BASE_ARENA}}
             ))
-            fig_wf_pl.update_layout(plot_bgcolor='rgba(0,0,0,0)', height=250, margin=dict(t=20, b=0, l=0, r=0), yaxis=dict(showticklabels=False))
+            fig_wf_pl.update_layout(
+                plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
+                height=250, margin=dict(t=20, b=0, l=0, r=0),
+                yaxis=dict(showticklabels=False), xaxis=dict(tickfont=dict(color=COLOR_BASE_AZUL))
+            )
             st.plotly_chart(fig_wf_pl, use_container_width=True)
 
     else:
