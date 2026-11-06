@@ -136,7 +136,7 @@ with col1:
         yaxis=dict(tickformat='.0%', showgrid=True, gridcolor='#E5E5E5', range=[0, max(df['PL_Presion_Fiscal'])*1.2])
     )
     st.plotly_chart(fig_presion, use_container_width=True)
-    st.caption("**Nota:** Representa la participación de los impuestos en el precio final al consumidor. Se seleccionó una sola marca por categoría, por lo que los resultados son ilustrativos y no representan la presión fiscal de todos los productos, dada la diversidad de marcas, precios, presentaciones y grados alcoholimétricos.")
+    st.caption("**Nota:** La presión fiscal representa la participación de los impuestos en el precio final al consumidor. Se seleccionó una sola marca por categoría, por lo que los resultados son ilustrativos y no representan la presión fiscal de todos los productos, dada la diversidad de marcas, precios, presentaciones y grados alcoholimétricos.")
 
 # --- GRÁFICO 2: TOTAL IMPUESTOS ---
 with col2:
