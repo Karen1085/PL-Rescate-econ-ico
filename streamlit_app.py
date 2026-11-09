@@ -156,7 +156,7 @@ html_tabla = f"""
 # HTML para la nota al pie del cuadro
 html_nota_cuadro = """
 <div style="font-size: 10.5px; color: #666; line-height: 1.4; text-align: justify; margin-top: 8px;">
-    <strong>Nota:</strong> Se comparan las tarifas vigentes en 2026, su proyección para 2027 y las propuestas en el PL de Rescate Económico. Para 2027 se supone un IPC del 5 % y, en cigarrillos, una actualización del IPC más cuatro puntos porcentuales. Las tarifas específicas se expresan por grado alcoholimétrico y 750 ml para licores y vinos, por grado y 330 ml para cervezas y refajos, y por cajetilla de 20 unidades para cigarrillos. El proyecto propone aumentar la tarifa de estos últimos a $11.200 en 2028.
+    <strong>Nota:</strong> Se comparan las tarifas v.
 </div>
 """
 
