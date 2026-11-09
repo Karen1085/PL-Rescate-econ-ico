@@ -62,18 +62,22 @@ st.sidebar.checkbox("Mantener precios base constantes (2027)", value=True, disab
 st.sidebar.checkbox("Traslado 100% al consumidor", value=True, disabled=True)
 
 st.sidebar.markdown("<br>", unsafe_allow_html=True)
-st.sidebar.caption("**Nota general:** Los resultados corresponden a un ejercicio ilustrativo para productos seleccionados y no constituyen estimaciones representativas del mercado nacional de bebidas alcohólicas.")
+st.sidebar.markdown("""
+<div style="font-size: 11px; color: #666; line-height: 1.4; text-align: justify;">
+    <strong>Nota general:</strong> Los resultados corresponden a un ejercicio ilustrativo para productos seleccionados y no constituyen estimaciones representativas del mercado nacional de bebidas alcohólicas.
+</div>
+""", unsafe_allow_html=True)
 
 st.sidebar.markdown("<hr>", unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# 3. HTML de la Tabla de Tarifas (Definición Actualizada)
+# 3. HTML de la Tabla de Tarifas (Definición Mejorada)
 # ---------------------------------------------------------
 html_tabla = f"""
 <style>
-.tg {{border-collapse:collapse; border-spacing:0; width:100%; text-align:center; font-family:sans-serif; font-size: 12px; margin-bottom: 10px;}}
-.tg th {{border:1px solid #e0e0e0; padding:6px; font-weight:bold;}}
-.tg td {{border:1px solid #e0e0e0; padding:5px;}}
+.tg {{border-collapse:collapse; border-spacing:0; width:100%; text-align:center; font-family:sans-serif; font-size: 11px; margin-bottom: 5px;}}
+.tg th {{border:1px solid #e0e0e0; padding:4px 6px; font-weight:bold; line-height: 1.2;}}
+.tg td {{border:1px solid #e0e0e0; padding:4px 6px; white-space: nowrap;}} /* El white-space evita que se rompan las líneas */
 .bg-actual {{background-color:{COLOR_BASE_AZUL}; color:white;}}
 .bg-grey {{background-color:#e6e6e6; color:{COLOR_BASE_AZUL};}}
 .bg-pl {{background-color:#fcf9f2; color:{COLOR_BASE_AZUL};}}
@@ -86,16 +90,16 @@ html_tabla = f"""
   <thead>
     <tr>
       <th rowspan="2" style="background-color:white; color:{COLOR_BASE_AZUL}; border: none;">Producto</th>
-      <th colspan="2" class="bg-actual">Legislación actual</th>
-      <th colspan="2" class="bg-grey">Legislación 2027</th>
-      <th colspan="2" class="bg-pl">PL Rescate Económico</th>
-      <th colspan="2" class="bg-grey">Variación vs 2027</th>
+      <th colspan="2" class="bg-actual">Legislación<br>actual</th>
+      <th colspan="2" class="bg-grey">Legislación<br>2027</th>
+      <th colspan="2" class="bg-pl">PL Rescate<br>Económico</th>
+      <th colspan="2" class="bg-grey">Variación vs<br>2027</th>
     </tr>
     <tr>
       <th class="bg-actual">Esp. 2026</th>
       <th class="bg-actual">Ad val. 2026</th>
       <th class="bg-grey">Esp. 2027</th>
-      <th class="bg-grey">Ad val 2027.</th>
+      <th class="bg-grey">Ad val. 2027</th>
       <th class="bg-pl">Esp. 2027</th>
       <th class="bg-pl">Ad val. 2027</th>
       <th class="bg-grey">Específico</th>
@@ -142,6 +146,13 @@ html_tabla = f"""
 </table>
 """
 
+# HTML para la nota al pie del cuadro
+html_nota_cuadro = """
+<div style="font-size: 10.5px; color: #666; line-height: 1.4; text-align: justify; margin-top: 8px;">
+    <strong>Nota:</strong> Se comparan las tarifas vigentes en 2026, su proyección para 2027 y las propuestas en el PL de Rescate Económico. Para 2027 se supone un IPC del 5 % y, en cigarrillos, una actualización del IPC más cuatro puntos porcentuales. Las tarifas específicas se expresan por grado alcoholimétrico y 750 ml para licores y vinos, por grado y 330 ml para cervezas y refajos, y por cajetilla de 20 unidades para cigarrillos. El proyecto propone aumentar la tarifa de estos últimos a $11.200 en 2028.
+</div>
+"""
+
 # ---------------------------------------------------------
 # 4. Área Principal (Dashboard)
 # ---------------------------------------------------------
@@ -177,7 +188,11 @@ with col1:
         xaxis=dict(tickfont=dict(color=COLOR_BASE_AZUL))
     )
     st.plotly_chart(fig_presion, use_container_width=True)
-    st.caption("**Nota:** Representa la participación de los impuestos en el precio final al consumidor. Se seleccionó una sola marca por categoría, por lo que los resultados son ilustrativos y no representan la presión fiscal de todos los productos, dada la diversidad de marcas, precios, presentaciones y grados alcoholimétricos.")
+    st.markdown("""
+    <div style="font-size: 11px; color: #666; line-height: 1.4; text-align: justify; margin-top: -15px;">
+        <strong>Nota:</strong> Representa la participación de los impuestos en el precio final al consumidor. Se seleccionó una sola marca por categoría, por lo que los resultados son ilustrativos y no representan la presión fiscal de todos los productos, dada la diversidad de marcas, precios, presentaciones y grados alcoholimétricos.
+    </div>
+    """, unsafe_allow_html=True)
 
 # --- GRÁFICO 2: TOTAL IMPUESTOS ---
 with col2:
@@ -201,7 +216,11 @@ with col2:
         xaxis=dict(tickfont=dict(color=COLOR_BASE_AZUL))
     )
     st.plotly_chart(fig_impuestos, use_container_width=True)
-    st.caption("**Nota:** Incluye el impuesto al consumo y el IVA. En licores, vinos y aperitivos, el proyecto contempla un aumento del IVA del 5 % al 19 %. En cervezas, la legislación vigente aplica un impuesto del 48 % sobre el precio de venta al detallista, mientras que el proyecto establece un componente específico y un ad valorem del 10 % sobre el precio de venta al público sin impuestos, certificado por el DANE.")
+    st.markdown("""
+    <div style="font-size: 11px; color: #666; line-height: 1.4; text-align: justify; margin-top: -15px;">
+        <strong>Nota:</strong> Incluye el impuesto al consumo y el IVA. En licores, vinos y aperitivos, el proyecto contempla un aumento del IVA del 5 % al 19 %. En cervezas, la legislación vigente aplica un impuesto del 48 % sobre el precio de venta al detallista, mientras que el proyecto establece un componente específico y un ad valorem del 10 % sobre el precio de venta al público sin impuestos, certificado por el DANE.
+    </div>
+    """, unsafe_allow_html=True)
 
 # Separador
 st.markdown("<br>", unsafe_allow_html=True)
@@ -229,7 +248,11 @@ with col4:
         xaxis=dict(tickfont=dict(color=COLOR_BASE_AZUL))
     )
     st.plotly_chart(fig_precio, use_container_width=True)
-    st.caption("**Nota:** Se proyecta un incremento del 5 % en los precios antes de impuestos para 2027. Se supone que los precios base permanecen constantes entre escenarios y que el 100 % del incremento tributario se traslada al consumidor, sin considerar cambios en los márgenes de comercialización ni en la demanda.")
+    st.markdown("""
+    <div style="font-size: 11px; color: #666; line-height: 1.4; text-align: justify; margin-top: -15px;">
+        <strong>Nota:</strong> Se proyecta un incremento del 5 % en los precios antes de impuestos para 2027. Se supone que los precios base permanecen constantes entre escenarios y que el 100 % del incremento tributario se traslada al consumidor, sin considerar cambios en los márgenes de comercialización ni en la demanda.
+    </div>
+    """, unsafe_allow_html=True)
 
 # --- GRÁFICO 4: CASCADAS COMPARATIVAS O TABLA DE TARIFAS ---
 with col5:
@@ -272,4 +295,4 @@ with col5:
     else:
         st.markdown(f"<h4 style='color: {COLOR_BASE_AZUL};'>4. Tabla Resumen de Tarifas</h4>", unsafe_allow_html=True)
         st.markdown(html_tabla, unsafe_allow_html=True)
-        st.caption("**Nota:** Se comparan las tarifas vigentes en 2026, su proyección para 2027 y las propuestas en el PL de Rescate Económico. Para 2027 se supone un IPC del 5 % y, en cigarrillos, una actualización del IPC más cuatro puntos porcentuales. Las tarifas específicas se expresan por grado alcoholimétrico y 750 ml para licores y vinos, por grado y 330 ml para cervezas y refajos, y por cajetilla de 20 unidades para cigarrillos. El proyecto propone aumentar la tarifa de estos últimos a $11.200 en 2028.")
+        st.markdown(html_nota_cuadro, unsafe_allow_html=True)
