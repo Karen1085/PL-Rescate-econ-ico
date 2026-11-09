@@ -5,14 +5,14 @@ import plotly.graph_objects as go
 # ---------------------------------------------------------
 # Configuración de la página
 # ---------------------------------------------------------
-st.set_page_config(page_title="Análisis Tributario", layout="wide")
+st.set_page_config(page_title="Impacto Tributario", layout="wide")
 
 COLOR_BASE_AZUL = '#1c2045'  # Azul Marino Oscuro (Legislación Actual)
 COLOR_BASE_ARENA = '#deb173' # Arena / Mostaza (PL Rescate)
 COLOR_TEXTO_ARENA = '#a67d3e' # Tono mostaza para legibilidad en texto
 
 # ---------------------------------------------------------
-# FORZAR MODO BLANCO Y ELIMINAR MENÚ DE COLOR (SOLO CÓDIGO)
+# FORZAR MODO BLANCO, ELIMINAR MENÚ Y QUITAR BORDES GRISES
 # ---------------------------------------------------------
 st.markdown(f"""
 <style>
@@ -29,7 +29,14 @@ st.markdown(f"""
         color: {COLOR_BASE_AZUL} !important;
     }}
     
-    /* 3. Forzar sidebar en fondo claro y texto oscuro */
+    /* 3. Eliminar el recuadro/borde gris tipo "hoja" de los contenedores */
+    .block-container, [data-testid="stMainBlockContainer"], [data-testid="stVerticalBlockBorderWrapper"], div[data-testid="stVerticalBlock"] > div {{
+        border: none !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }}
+    
+    /* 4. Forzar sidebar en fondo claro y texto oscuro */
     section[data-testid="stSidebar"] {{
         background-color: #F8F9FA !important;
     }}
@@ -77,7 +84,7 @@ html_tabla = f"""
 <style>
 .tg {{border-collapse:collapse; border-spacing:0; width:100%; text-align:center; font-family:sans-serif; font-size: 11px; margin-bottom: 5px;}}
 .tg th {{border:1px solid #e0e0e0; padding:4px 6px; font-weight:bold; line-height: 1.2;}}
-.tg td {{border:1px solid #e0e0e0; padding:4px 6px; white-space: nowrap;}} /* El white-space evita que se rompan las líneas */
+.tg td {{border:1px solid #e0e0e0; padding:4px 6px; white-space: nowrap;}}
 .bg-actual {{background-color:{COLOR_BASE_AZUL}; color:white;}}
 .bg-grey {{background-color:#e6e6e6; color:{COLOR_BASE_AZUL};}}
 .bg-pl {{background-color:#fcf9f2; color:{COLOR_BASE_AZUL};}}
@@ -156,7 +163,7 @@ html_nota_cuadro = """
 # ---------------------------------------------------------
 # 4. Área Principal (Dashboard)
 # ---------------------------------------------------------
-st.markdown(f"<h2 style='color: {COLOR_BASE_AZUL};'>Análisis del Proyecto de Ley de Rescate Económico en Bebidas</h2>", unsafe_allow_html=True)
+st.markdown(f"<h2 style='color: {COLOR_BASE_AZUL};'>Impacto del Proyecto de Ley de Rescate Económico en Bebidas</h2>", unsafe_allow_html=True)
 st.markdown("<hr style='border: 1px solid #e0e0e0; margin-top: -10px; margin-bottom: 20px;'>", unsafe_allow_html=True)
 
 if seleccion_prod != "Todos los productos":
