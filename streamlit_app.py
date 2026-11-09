@@ -78,7 +78,7 @@ st.sidebar.markdown("""
 st.sidebar.markdown("<hr>", unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# 3. HTML de la Tabla de Tarifas (Definición Mejorada)
+# 3. HTML de la Tabla de Tarifas (Definición Mejorada con Nota Integrada)
 # ---------------------------------------------------------
 html_tabla = f"""
 <style>
@@ -92,6 +92,7 @@ html_tabla = f"""
 .text-incr {{color:#d32f2f; font-weight:bold;}}
 .text-decr {{color:#388e3c; font-weight:bold;}}
 .text-neutro {{color:#757575; font-weight:bold;}}
+.nota-tabla {{border: none !important; text-align: justify; white-space: normal !important; padding: 12px 0px 0px 0px !important; font-size: 10.5px; color: #666; line-height: 1.4;}}
 </style>
 <table class="tg">
   <thead>
@@ -150,16 +151,16 @@ html_tabla = f"""
       <td class="text-incr">+61,4%</td><td class="text-neutro">0 pp</td>
     </tr>
   </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="9" class="nota-tabla">
+        *En cervezas, la legislación vigente establece una tarifa del 48% sobre el precio de venta al detallista. Para las cervezas nacionales, la base gravable es determinada por el productor y corresponde al precio facturado a los expendedores en la capital del departamento donde se ubique la fábrica. En el caso de las cervezas extranjeras, la base gravable se determina a partir del valor en aduana de la mercancía, incluidos los gravámenes arancelarios, al cual se adiciona un margen de comercialización equivalente al 30%. En ambos casos, se excluye de la base gravable el valor de los empaques y envases. Adicionalmente, la legislación establece que el impuesto pagado por las cervezas extranjeras no podrá ser inferior al promedio del impuesto causado por las cervezas producidas en Colombia, mientras que el proyecto establece un componente específico por grados alcoholimetricos según la presentación y un ad valorem del 10 % sobre el precio de venta al público sin impuestos, certificado por el DANE.
+        <br><br>
+        <strong>Nota:</strong> Se comparan las tarifas vigentes en 2026, su proyección para 2027 y las propuestas en el PL de Rescate Económico. Para 2027 se supone un IPC del 5% y, en cigarrillos, una actualización del IPC más cuatro puntos porcentuales. Las tarifas específicas se expresan por grado alcoholimétrico y 750 ml para licores y vinos, por grado y 330 ml para cervezas y refajos, y por cajetilla de 20 unidades para cigarrillos. El proyecto propone aumentar la tarifa de estos últimos a $11.200 en 2028. En licores, vinos y aperitivos, el proyecto contempla un aumento del IVA del 5 % al 19 %. Las tarifas del componente específico para licores, vinos, aperitivos, cervezas y sifones, refajos y mezclas se actualizarán mediante IPC +4 pp en 2028 y la misma actualización para cigarrillos y similares a partir de 2029.
+      </td>
+    </tr>
+  </tfoot>
 </table>
-"""
-
-# HTML para la nota ampliada al pie de la tabla
-html_nota_cuadro = """
-<div style="font-size: 10.5px; color: #666; line-height: 1.4; text-align: justify; margin-top: 8px;">
-    *En cervezas, la legislación vigente establece una tarifa del 48% sobre el precio de venta al detallista. Para las cervezas nacionales, la base gravable es determinada por el productor y corresponde al precio facturado a los expendedores en la capital del departamento donde se ubique la fábrica. En el caso de las cervezas extranjeras, la base gravable se determina a partir del valor en aduana de la mercancía, incluidos los gravámenes arancelarios, al cual se adiciona un margen de comercialización equivalente al 30%. En ambos casos, se excluye de la base gravable el valor de los empaques y envases. Adicionalmente, la legislación establece que el impuesto pagado por las cervezas extranjeras no podrá ser inferior al promedio del impuesto causado por las cervezas producidas en Colombia, mientras que el proyecto establece un componente específico por grados alcoholimetricos según la presentación y un ad valorem del 10 % sobre el precio de venta al público sin impuestos, certificado por el DANE.
-    <br><br>
-    <strong>Nota:</strong> Se comparan las tarifas vigentes en 2026, su proyección para 2027 y las propuestas en el PL de Rescate Económico. Para 2027 se supone un IPC del 5% y, en cigarrillos, una actualización del IPC más cuatro puntos porcentuales. Las tarifas específicas se expresan por grado alcoholimétrico y 750 ml para licores y vinos, por grado y 330 ml para cervezas y refajos, y por cajetilla de 20 unidades para cigarrillos. El proyecto propone aumentar la tarifa de estos últimos a $11.200 en 2028. En licores, vinos y aperitivos, el proyecto contempla un aumento del IVA del 5 % al 19 %. Las tarifas del componente específico para licores, vinos, aperitivos, cervezas y sifones, refajos y mezclas se actualizarán mediante IPC +4 pp en 2028 y la misma actualización para cigarrillos y similares a partir de 2029.
-</div>
 """
 
 # ---------------------------------------------------------
@@ -304,4 +305,3 @@ with col5:
     else:
         st.markdown(f"<h4 style='color: {COLOR_BASE_AZUL};'>4. Tabla Resumen de Tarifas</h4>", unsafe_allow_html=True)
         st.markdown(html_tabla, unsafe_allow_html=True)
-        st.markdown(html_nota_cuadro, unsafe_allow_html=True)
