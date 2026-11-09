@@ -79,6 +79,7 @@ html_tabla = f"""
 .bg-pl {{background-color:#fcf9f2; color:{COLOR_BASE_AZUL};}}
 .text-pl {{color:{COLOR_TEXTO_ARENA}; font-weight:bold;}}
 .text-incr {{color:#d32f2f; font-weight:bold;}}
+.text-decr {{color:#388e3c; font-weight:bold;}}
 .text-neutro {{color:#757575; font-weight:bold;}}
 </style>
 <table class="tg">
@@ -88,7 +89,7 @@ html_tabla = f"""
       <th colspan="2" class="bg-actual">Legislación actual</th>
       <th colspan="2" class="bg-grey">Legislación 2027</th>
       <th colspan="2" class="bg-pl">PL Rescate Económico</th>
-      <th colspan="2" class="bg-grey">% Incr. vs 2027</th>
+      <th colspan="2" class="bg-grey">Variación vs 2027</th>
     </tr>
     <tr>
       <th class="bg-actual">Esp. 2026</th>
@@ -97,7 +98,7 @@ html_tabla = f"""
       <th class="bg-grey">Ad val 2027.</th>
       <th class="bg-pl">Esp. 2027</th>
       <th class="bg-pl">Ad val. 2027</th>
-      <th class="bg-grey">Esp.</th>
+      <th class="bg-grey">Específico</th>
       <th class="bg-grey">Ad val.</th>
     </tr>
   </thead>
@@ -107,35 +108,35 @@ html_tabla = f"""
       <td class="bg-actual">$360/gr</td><td class="bg-actual">25%</td>
       <td class="bg-grey">$378/gr</td><td class="bg-grey">25%</td>
       <td class="text-pl">$750/gr</td><td class="text-pl">35%</td>
-      <td class="text-incr">+98%</td><td class="text-incr">+40%</td>
+      <td class="text-incr">+98,4%</td><td class="text-incr">+10 pp</td>
     </tr>
     <tr>
       <td style="color: {COLOR_BASE_AZUL}; font-weight: bold;">Vinos</td>
       <td class="bg-actual">$243/gr</td><td class="bg-actual">20%</td>
       <td class="bg-grey">$255/gr</td><td class="bg-grey">20%</td>
       <td class="text-pl">$750/gr</td><td class="text-pl">35%</td>
-      <td class="text-incr">+194%</td><td class="text-incr">+75%</td>
+      <td class="text-incr">+194,1%</td><td class="text-incr">+15 pp</td>
     </tr>
     <tr>
       <td style="color: {COLOR_BASE_AZUL}; font-weight: bold;">Cervezas</td>
       <td class="bg-actual">N/A</td><td class="bg-actual">48%*</td>
       <td class="bg-grey">N/A</td><td class="bg-grey">48%*</td>
       <td class="text-pl">$330/gr</td><td class="text-pl">10%</td>
-      <td class="text-neutro">N/A</td><td class="text-neutro">N/A*</td>
+      <td class="text-neutro">Nueva tarifa</td><td class="text-decr">-38 pp</td>
     </tr>
     <tr>
       <td style="color: {COLOR_BASE_AZUL}; font-weight: bold;">Refajos</td>
       <td class="bg-actual">N/A</td><td class="bg-actual">20%*</td>
       <td class="bg-grey">N/A</td><td class="bg-grey">20%*</td>
       <td class="text-pl">$330/gr</td><td class="text-pl">10%</td>
-      <td class="text-neutro">N/A</td><td class="text-neutro">N/A*</td>
+      <td class="text-neutro">Nueva tarifa</td><td class="text-decr">-10 pp</td>
     </tr>
     <tr>
       <td style="color: {COLOR_BASE_AZUL}; font-weight: bold;">Cigarrillos</td>
       <td class="bg-actual">$4.446/20u</td><td class="bg-actual">10%</td>
       <td class="bg-grey">$4.846/20u</td><td class="bg-grey">10%</td>
       <td class="text-pl">$7.823/20u</td><td class="text-pl">10%</td>
-      <td class="text-incr">+61%</td><td class="text-neutro">0%</td>
+      <td class="text-incr">+61,4%</td><td class="text-neutro">0 pp</td>
     </tr>
   </tbody>
 </table>
