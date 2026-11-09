@@ -5,7 +5,7 @@ import plotly.graph_objects as go
 # ---------------------------------------------------------
 # Configuración de la página
 # ---------------------------------------------------------
-st.set_page_config(page_title="Análisis Tributario", layout="wide")
+st.set_page_config(page_title="Impacto Tributario", layout="wide")
 
 COLOR_BASE_AZUL = '#1c2045'  # Azul Marino Oscuro (Legislación Actual)
 COLOR_BASE_ARENA = '#deb173' # Arena / Mostaza (PL Rescate)
@@ -153,37 +153,19 @@ html_tabla = f"""
 </table>
 """
 
-# HTML para la nota al pie del cuadro
+# HTML para la nota ampliada al pie de la tabla
 html_nota_cuadro = """
 <div style="font-size: 10.5px; color: #666; line-height: 1.4; text-align: justify; margin-top: 8px;">
-    <strong>Nota:</strong> *En cervezas, la legislación vigente establece una tarifa del 48% sobre el precio de venta al
-detallista. Para las cervezas nacionales, la base gravable es determinada por el productor y
-corresponde al precio facturado a los expendedores en la capital del departamento donde se
-ubique la fábrica. En el caso de las cervezas extranjeras, la base gravable se determina a partir del
-valor en aduana de la mercancía, incluidos los gravámenes arancelarios, al cual se adiciona un
-margen de comercialización equivalente al 30%. En ambos casos, se excluye de la base gravable el
-valor de los empaques y envases. Adicionalmente, la legislación establece que el impuesto pagado
-por las cervezas extranjeras no podrá ser inferior al promedio del impuesto causado por las
-cervezas producidas en Colombia, mientras que el proyecto establece un componente específico
-por grados alcoholimetricos según la presentación y un ad valorem del 10 % sobre el precio de
-venta al público sin impuestos, certificado por el DANE.
-Nota: Se comparan las tarifas vigentes en 2026, su proyección para 2027 y las propuestas en el PL
-de Rescate Económico. Para 2027 se supone un IPC del 5% y, en cigarrillos, una actualización del
-IPC más cuatro puntos porcentuales. Las tarifas específicas se expresan por grado alcoholimétrico
-y 750 ml para licores y vinos, por grado y 330 ml para cervezas y refajos, y por cajetilla de 20
-unidades para cigarrillos. El proyecto propone aumentar la tarifa de estos últimos a $11.200 en
-2028. En licores, vinos y aperitivos, el proyecto contempla un aumento del IVA del 5 % al 19 %. Las
-tarifas del componente específico para licores, vinos, aperitivos, cervezas y sifones, refajos y
-mezclas se actualizarán mediante IPC +4 pp en 2028 y la misma actualización para cigarrillos y
-similares a partir de 2029.
-.
+    *En cervezas, la legislación vigente establece una tarifa del 48% sobre el precio de venta al detallista. Para las cervezas nacionales, la base gravable es determinada por el productor y corresponde al precio facturado a los expendedores en la capital del departamento donde se ubique la fábrica. En el caso de las cervezas extranjeras, la base gravable se determina a partir del valor en aduana de la mercancía, incluidos los gravámenes arancelarios, al cual se adiciona un margen de comercialización equivalente al 30%. En ambos casos, se excluye de la base gravable el valor de los empaques y envases. Adicionalmente, la legislación establece que el impuesto pagado por las cervezas extranjeras no podrá ser inferior al promedio del impuesto causado por las cervezas producidas en Colombia, mientras que el proyecto establece un componente específico por grados alcoholimetricos según la presentación y un ad valorem del 10 % sobre el precio de venta al público sin impuestos, certificado por el DANE.
+    <br><br>
+    <strong>Nota:</strong> Se comparan las tarifas vigentes en 2026, su proyección para 2027 y las propuestas en el PL de Rescate Económico. Para 2027 se supone un IPC del 5% y, en cigarrillos, una actualización del IPC más cuatro puntos porcentuales. Las tarifas específicas se expresan por grado alcoholimétrico y 750 ml para licores y vinos, por grado y 330 ml para cervezas y refajos, y por cajetilla de 20 unidades para cigarrillos. El proyecto propone aumentar la tarifa de estos últimos a $11.200 en 2028. En licores, vinos y aperitivos, el proyecto contempla un aumento del IVA del 5 % al 19 %. Las tarifas del componente específico para licores, vinos, aperitivos, cervezas y sifones, refajos y mezclas se actualizarán mediante IPC +4 pp en 2028 y la misma actualización para cigarrillos y similares a partir de 2029.
 </div>
 """
 
 # ---------------------------------------------------------
 # 4. Área Principal (Dashboard)
 # ---------------------------------------------------------
-st.markdown(f"<h2 style='color: {COLOR_BASE_AZUL};'>Análisis del Proyecto de Ley de Rescate Económico en Bebidas</h2>", unsafe_allow_html=True)
+st.markdown(f"<h2 style='color: {COLOR_BASE_AZUL};'>Impacto del Proyecto de Ley de Rescate Económico en Bebidas</h2>", unsafe_allow_html=True)
 st.markdown("<hr style='border: 1px solid #e0e0e0; margin-top: -10px; margin-bottom: 20px;'>", unsafe_allow_html=True)
 
 if seleccion_prod != "Todos los productos":
@@ -217,7 +199,7 @@ with col1:
     st.plotly_chart(fig_presion, use_container_width=True)
     st.markdown("""
     <div style="font-size: 11px; color: #666; line-height: 1.4; text-align: justify; margin-top: -15px;">
-        <strong>Nota:</strong> Representa la participación de los impuestos en el precio final al consumidor. Se seleccionó una sola marca por categoría, por lo que los resultados son ilustrativos y no representan la presión fiscal de todos los productos, dada la diversidad de marcas, precios, presentaciones y grados alcoholimétricos.
+        <strong>Notas:</strong> La presión fiscal representa la participación de los impuestos en el precio final al consumidor. Se seleccionó una sola marca por categoría certificada por el DANE, por lo que los resultados son ilustrativos y no representan la presión fiscal de todos los productos, dada la diversidad de marcas, precios, presentaciones y grados alcoholimétricos.
     </div>
     """, unsafe_allow_html=True)
 
@@ -245,7 +227,7 @@ with col2:
     st.plotly_chart(fig_impuestos, use_container_width=True)
     st.markdown("""
     <div style="font-size: 11px; color: #666; line-height: 1.4; text-align: justify; margin-top: -15px;">
-        <strong>Nota:</strong> Incluye el impuesto al consumo y el IVA. En licores, vinos y aperitivos, el proyecto contempla un aumento del IVA del 5 % al 19 %. En cervezas, la legislación vigente aplica un impuesto del 48 % sobre el precio de venta al detallista, mientras que el proyecto establece un componente específico y un ad valorem del 10 % sobre el precio de venta al público sin impuestos, certificado por el DANE.
+        <strong>Nota:</strong> Incluye el impuesto al consumo y el IVA. En licores, vinos y aperitivos, el proyecto contempla un aumento del IVA del 5 % al 19 %. En cervezas, la legislación vigente aplica un impuesto del 48 % sobre el precio de venta al detallista, mientras que el proyecto establece un componente específico de 330 por grado y un ad valorem del 10 % sobre el precio de venta al público sin impuestos, certificado por el DANE. La botella de cerveza corresponde a 330 ml mientras que de licores es de 750 ml.
     </div>
     """, unsafe_allow_html=True)
 
@@ -277,7 +259,7 @@ with col4:
     st.plotly_chart(fig_precio, use_container_width=True)
     st.markdown("""
     <div style="font-size: 11px; color: #666; line-height: 1.4; text-align: justify; margin-top: -15px;">
-        <strong>Nota:</strong> Se proyecta un incremento del 5 % en los precios antes de impuestos para 2027. Se supone que los precios base permanecen constantes entre escenarios y que el 100 % del incremento tributario se traslada al consumidor, sin considerar cambios en los márgenes de comercialización ni en la demanda.
+        <strong>Nota:</strong> Se proyecta un incremento del 5 % en los precios antes de impuestos para 2027. Se supone que los precios base permanecen constantes entre escenarios y que el 100 % del incremento tributario se traslada al consumidor, sin considerar cambios en los márgenes de comercialización ni en la demanda. Precio por botella para licores y vinos de 750 ml y para cerveza de 330 ml.
     </div>
     """, unsafe_allow_html=True)
 
